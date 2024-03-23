@@ -27,10 +27,8 @@ def add_url_into_db(url):
 def get_url_by_name(url):
     with conn.cursor(cursor_factory=NamedTupleCursor) as curs:
         query = 'SELECT * FROM urls WHERE name = (%s)'
-        curs.execute(query, (url,))
+        curs.execute(query, (url))
         data = curs.fetchone()
-        curs.close()
-        conn.close()
         return data
 
 
