@@ -41,7 +41,6 @@ def add_url():
     else:
         id = add_url_into_db(url)
         flash('Страница успешно добавлена', 'alert-success')
-        return render_template('index.html')
     return redirect(url_for('get_url', id=id))
 
 
