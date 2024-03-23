@@ -1,13 +1,18 @@
 from flask import (
     Flask, render_template, request, flash,
+    redirect, url_for,
 )
 
 from dotenv import load_dotenv
 import os
-from .url import validate
+from .url import validate, normalize
+from .db import add_url_into_db, get_url_by_name
 
 
 load_dotenv()
+
+DATABASE_URL = os.getenv('DATABASE_URL')
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
@@ -20,10 +25,23 @@ def get_index():
 @app.route('/urls', methods=["POST"])
 def add_url():
     url = request.form.get('url')
+    if not url:
+        flash('Заполните это поле', 'alert-danger')
+        return render_template('index.html'), 422
     error = validate(url)
     if error:
         flash(error, 'alert-danger')
         return render_template('index.html'), 422
+    normalize_url = normalize(url)
+    url_name = get_url_by_name(normalize_url)
+    if url_name:
+        id = url_name.id
+        flash('Страница уже существует', 'alert-info')
+    else:
+        id = add_url_into_db(url)
+        flash('Страница успешно добавлена', 'alert-success')
+        return render_template('index.html')
+    return redirect(url_for('get_url', id=id))
 
 
 if __name__ == '__main__':
