@@ -29,6 +29,8 @@ def get_url_by_name(url):
         query = 'SELECT * FROM urls WHERE name = (%s)'
         curs.execute(query, (url,))
         data = curs.fetchone()
+        curs.close()
+        conn.close()
         return data
 
 
