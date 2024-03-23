@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 import os
 from .url import validate, normalize
 from .db import add_url_into_db, get_url_by_name
+from .db import get_url_by_id
 
 
 load_dotenv()
@@ -42,6 +43,18 @@ def add_url():
         flash('Страница успешно добавлена', 'alert-success')
         return render_template('index.html')
     return redirect(url_for('get_url', id=id))
+
+
+@app.route('/urls/<int:id>', methods=["GET"])
+def get_url(id):
+    url = get_url_by_id(id)
+    if url is None:
+        flash('Запрашиваемая страница не найдена', 'alert-danger')
+        return render_template('index.html'), 404
+    return render_template(
+        'url_info.html',
+        url=url,
+    )
 
 
 if __name__ == '__main__':
