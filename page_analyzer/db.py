@@ -38,3 +38,11 @@ def get_url_by_id(id):
         curs.execute(query, (id,))
         data = curs.fetchone()
         return data
+
+
+def get_urls_list():
+    with conn.cursor(cursor_factory=NamedTupleCursor) as curs:
+        query = 'SELECT * FROM urls'
+        curs.execute(query)
+        data = curs.fetchall()
+        return data

@@ -7,14 +7,14 @@ from dotenv import load_dotenv
 import os
 from .url import validate, normalize
 from .db import add_url_into_db, get_url_by_name
-from .db import get_url_by_id
+from .db import get_url_by_id, get_urls_list
 
 
 load_dotenv()
 
-DATABASE_URL = os.getenv('DATABASE_URL')
 
 app = Flask(__name__)
+app.config['DATABASE_URL'] = os.getenv('DATABASE_URL')
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
 
@@ -53,6 +53,15 @@ def get_url(id):
     return render_template(
         'url_info.html',
         url=url,
+    )
+
+
+@app.route('/urls', methods=["GET"])
+def get_urls():
+    saved_urls = get_urls_list()
+    return render_template(
+        'urls_list'.html,
+        urls=saved_urls,
     )
 
 
