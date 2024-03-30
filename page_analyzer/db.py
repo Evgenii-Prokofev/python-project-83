@@ -43,6 +43,6 @@ def get_url_by_id(id):
 def get_urls_list():
     with conn.cursor(cursor_factory=NamedTupleCursor) as curs:
         query = 'SELECT * FROM urls'
-        curs.execute(query)
+        curs.execute(query, (id, ))
         data = curs.fetchall()
         return data
