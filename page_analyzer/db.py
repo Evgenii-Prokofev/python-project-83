@@ -1,5 +1,5 @@
 import psycopg2
-from psycopg2.extras import NamedTupleCursor
+from psycopg2.extras import DictCursor
 import os
 from dotenv import load_dotenv
 from datetime import datetime
@@ -16,7 +16,7 @@ def get_connection(database_url):
 
 
 def add_url_into_db(url):
-    with get_connection(DATABASE_URL).cursor(cursor_factory=extras.DictCursor) as curs:
+    with get_connection(DATABASE_URL).cursor(cursor_factory=DictCursor) as curs:
         query = (
             'INSERT INTO urls '
             '(name, created_at) '
@@ -29,21 +29,21 @@ def add_url_into_db(url):
 
 
 def get_url_by_name(url):
-    with get_connection(DATABASE_URL).cursor(cursor_factory=extras.DictCursor) as curs:
+    with get_connection(DATABASE_URL).cursor(cursor_factory=DictCursor) as curs:
         query = 'SELECT * FROM urls WHERE name = (%s)'
         curs.execute(query, (url,))
         return curs.fetchone()
-        
+
 
 def get_url_by_id(id):
-    with get_connection(DATABASE_URL).cursor(cursor_factory=extras.DictCursor) as curs:
+    with get_connection(DATABASE_URL).cursor(cursor_factory=DictCursor) as curs:
         query = 'SELECT * FROM urls WHERE id = (%s)'
         curs.execute(query, (id,))
         return curs.fetchone()
-         
-        
+
+
 def get_urls_list():
-    with conn.cursor(cursor_factory=NamedTupleCursor) as curs:
+    with get_connection(DATABASE_URL).cursor(cursor_factory=DictCursor) as curs:
         query = 'SELECT * FROM urls'
         curs.execute(query, (id, ))
         data = curs.fetchall()
