@@ -60,7 +60,7 @@ def get_url(id):
 def get_urls():
     saved_urls = get_urls_list()
     return render_template(
-        'urls_list'.html,
+        'urls_list.html',
         urls=saved_urls,
     )
 
