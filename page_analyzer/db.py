@@ -2,7 +2,7 @@ import psycopg2
 from psycopg2.extras import DictCursor, NamedTupleCursor
 import os
 from dotenv import load_dotenv
-from datetime import datetime
+import datetime
 
 load_dotenv()
 
