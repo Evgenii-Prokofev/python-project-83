@@ -29,17 +29,19 @@ def add_url_into_db(url):
 
 
 def get_url_by_name(url):
-    with get_conn(DATABASE_URL).cursor(cursor_factory=DictCursor) as curs:
+    with get_conn(DATABASE_URL).cursor(cursor_factory=NamedTupleCursor) as curs:
         query = 'SELECT * FROM urls WHERE name = (%s)'
         curs.execute(query, (url,))
-        return curs.fetchone()
+        data = curs.fetchone()
+        return data
 
 
 def get_url_by_id(id):
-    with get_conn(DATABASE_URL).cursor(cursor_factory=DictCursor) as curs:
+    with get_conn(DATABASE_URL).cursor(cursor_factory=NamedTupleCursor) as curs:
         query = 'SELECT * FROM urls WHERE id = (%s)'
         curs.execute(query, (id,))
-        return curs.fetchone()
+        data = curs.fetchone()
+        return data
 
 
 def get_urls_list():
