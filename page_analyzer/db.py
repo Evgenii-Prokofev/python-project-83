@@ -20,15 +20,12 @@ def get_conn(database_url):
 
 def add_url_into_db(url):
     with get_conn(DATABASE_URL).cursor(cursor_factory=NamedTupleCursor) as curs:
-        query = (
-            'INSERT INTO urls '
-            '(name, created_at) '
-            'VALUES (%s, %s) '
-            'RETURNING id'
-        )
-        values = (url, datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
-        curs.execute(query, values)
-        return curs.fetchone().id
+        date = datetime.date.today()
+        curs.execute("INSERT INTO urls (name, created_at) "
+                     "VALUES (%s, %s) ", (url, date))
+        curs.execute("SELECT * FROM urls WHERE name=%s", (url,))
+        url = curs.fetchone()
+        return url
 
 
 def get_url_by_name(url):
@@ -43,7 +40,7 @@ def get_url_by_id(id):
     with get_conn(DATABASE_URL).cursor(cursor_factory=NamedTupleCursor) as curs:
         query = 'SELECT * FROM urls WHERE id = (%s)'
         curs.execute(query, (id,))
-        url= curs.fetchone()
+        url = curs.fetchone()
         return url
 
 
