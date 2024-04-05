@@ -11,8 +11,11 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 
 
 def get_conn(database_url):
-    connection = psycopg2.connect(database_url)
-    return connection
+    try:
+        connection = psycopg2.connect(database_url)
+        return connection
+    except Exception:
+        print("Can't connect to database")
 
 
 def add_url_into_db(url):
@@ -40,8 +43,8 @@ def get_url_by_id(id):
     with get_conn(DATABASE_URL).cursor(cursor_factory=NamedTupleCursor) as curs:
         query = 'SELECT * FROM urls WHERE id = (%s)'
         curs.execute(query, (id,))
-        data = curs.fetchone()
-        return data
+        url= curs.fetchone()
+        return url
 
 
 def get_urls_list():
