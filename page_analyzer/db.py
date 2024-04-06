@@ -23,7 +23,6 @@ def add_url_into_db(url):
         date = datetime.date.today()
         curs.execute("INSERT INTO urls (name, created_at) "
                      "VALUES (%s, %s) RETURNING id", (url, date))
-        connection.commit()
         inserted_id = curs.fetchone()
         return inserted_id[0]
 
@@ -88,4 +87,3 @@ def add_url_check_into_db(check_info):
             datetime.date.today()
         )
         curs.execute(query, values)
-        connection.commit()
