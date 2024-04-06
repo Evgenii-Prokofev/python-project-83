@@ -89,3 +89,4 @@ def add_url_check_into_db(check_info):
         )
         curs.execute(query, values)
         connection.commit()
+        connection.close()
