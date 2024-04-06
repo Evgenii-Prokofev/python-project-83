@@ -7,6 +7,7 @@ import requests
 from dotenv import load_dotenv
 import os
 from .url import validate, normalize
+from .url import parse_url_info
 from .db import add_url_into_db, get_url_by_name
 from .db import get_url_by_id, get_urls_list
 from .db import get_check_by_url_id
@@ -78,6 +79,12 @@ def check_urls(id):
     except requests.exceptions.RequestException:
         flash('Произошла ошибка при проверке', 'alert-danger')
         return redirect(url_for('get_url', id=id))
+    check_url_info = parse_url_info(response.text)
+    check_url_info['url_id'] = id
+    check_url_info['status_code'] = response.status_code
+    add_url_check_into_db(check_url_info)
+    flash('Страница успешно проверена', 'alert-success')
+    return redirect(url_for('get_url', id=id))
 
 
 if __name__ == '__main__':
