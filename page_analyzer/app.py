@@ -11,6 +11,7 @@ from .url import parse_url_info
 from .db import add_url_into_db, get_url_by_name
 from .db import get_url_by_id, get_urls_list
 from .db import get_check_by_url_id
+from .db import add_url_check_into_db
 
 
 load_dotenv()
