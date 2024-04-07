@@ -1,10 +1,18 @@
 [tool.poetry]
 name = "hexlet-code"
 version = "0.1.0"
-description = ""
+description = "check websites for CEO suitability for free"
 authors = ["Евгений <prokofev_619@mail.ru>"]
 readme = "README.md"
 packages = [{include = "page_analyzer"}]
+classifiers = [
+    "Programming Language :: Python ::^3.10",
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Education",
+    "Operating System :: Unix",
+    "Topic :: Internet :: WWW/HTTP :: Site Management"
+]
+
 
 [tool.poetry.dependencies]
 python = "^3.10"
