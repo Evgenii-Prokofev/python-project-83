@@ -21,15 +21,11 @@ def get_conn(database_url):
 def add_url_into_db(url):
     with get_conn(DATABASE_URL).cursor(cursor_factory=NamedTupleCursor) as curs:
         date = datetime.date.today()
-        query = (
-            'INSERT INTO urls '
-            '(name, created_at) '
-            'VALUES (%s, %s) '
-            'RETURNING id'
-        )
-        values = (url, date)
-        curs.execute(query, values)
-        return curs.fetchone().id
+        curs.execute("INSERT INTO urls (name, created_at) "
+                     "VALUES (%s, %s)", (url, date))
+        curs.execute("SELECT (id) FROM urls WHERE name=%s", (url,))
+        url = curs.fetchone()
+        return url
 
 
 def get_url_by_name(url):
