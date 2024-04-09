@@ -19,10 +19,16 @@ def get_conn(database_url):
 
 
 def add_url_into_db(url):
-    with get_conn(DATABASE_URL) as connection, connection.cursor(cursor_factory=NamedTupleCursor) as curs:
+    with get_conn(DATABASE_URL).cursor(cursor_factory=NamedTupleCursor) as curs:
         date = datetime.date.today()
-        curs.execute("INSERT INTO urls (name, created_at) "
-                     "VALUES (%s, %s) RETURNING id", (url, date))
+        query = (
+            'INSERT INTO urls '
+            '(name, created_at) '
+            'VALUES (%s, %s) '
+            'RETURNING id'
+        )
+        values = (url, date)
+        curs.execute(query, values)
         return curs.fetchone().id
 
 
