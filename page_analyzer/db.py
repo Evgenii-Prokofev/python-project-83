@@ -24,8 +24,8 @@ def add_url_into_db(url):
         curs.execute("INSERT INTO urls (name, created_at) "
                      "VALUES (%s, %s)", (url, date))
         curs.execute("SELECT (id) FROM urls WHERE name=%s", (url,))
-        url = curs.fetchone()
-        return url
+        id = curs.fetchone()
+        return id
 
 
 def get_url_by_name(url):
