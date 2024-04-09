@@ -13,7 +13,7 @@ https://python-project-83-nul4.onrender.com/
 
 1. Склонируйте репозиторий с проектом на ваше локальное устройство: 
 git clone git@github.com:Evgenii-Prokofev/python-project-83.git
-2. Перейдите в директорию проекта: cd python-project-50
+2. Перейдите в директорию проекта: cd python-project-83
 3. Установите необходимые зависимости с помощью Poetry: poetry install
 4. Создайте файл .env, который будет содержать ваши конфиденциальные настройки
 5. Задайте в нём значение ключей SECRET_KEY и DATABASE_URL

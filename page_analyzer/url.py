@@ -18,8 +18,8 @@ def validate(url):
 
 
 def normalize(url):
-    url_read = urlparse(url)
-    return url_read.scheme + '://' + url_read.netloc
+    url = urlparse(url)
+    return f"{url.scheme}://{url.netloc}"
 
 
 def parse_url_info(url_content):
