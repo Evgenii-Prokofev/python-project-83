@@ -42,9 +42,9 @@ def add_url():
     if url_name:
         id = url_name.id
         flash('Страница уже существует', 'alert-info')
-    else:
-        id = add_url_into_db(url)
-        flash('Страница успешно добавлена', 'alert-success')
+        return redirect(url_for('get_url', id=id))
+    id = add_url_into_db(url)
+    flash('Страница успешно добавлена', 'alert-success')
     return redirect(url_for('get_url', id=id))
 
 
