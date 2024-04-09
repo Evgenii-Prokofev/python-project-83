@@ -40,7 +40,7 @@ def add_url():
     normalize_url = normalize(url)
     url_name = get_url_by_name(normalize_url)
     if url_name:
-        id = url_name.id
+        id = url_name['id']
         flash('Страница уже существует', 'alert-info')
         return redirect(url_for('get_url', id=id))
     id = add_url_into_db(url)
