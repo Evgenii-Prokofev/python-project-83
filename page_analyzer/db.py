@@ -3,7 +3,7 @@ from psycopg2.extras import DictCursor, NamedTupleCursor
 import os
 from dotenv import load_dotenv
 import datetime
-from .exception import UrlAlreadyExists
+
 
 load_dotenv()
 
@@ -20,30 +20,11 @@ def get_conn(database_url):
 
 
 def add_url_into_db(url):
-    created_at = datetime.date.today()
-    with get_conn(DATABASE_URL) as conn:
-        with conn.cursor() as curs:
-            curs.execute(
-                """SELECT (id) FROM urls
-                    WHERE name = %s""",
-                (url, )
-            )
-            existing_id = curs.fetchone()
-
-        if existing_id:
-            raise UrlAlreadyExists(
-                'Страница уже существует',
-                existing_id[0])
-
-        with conn.cursor() as curs:
-            curs.execute(
-                """INSERT INTO urls (name, created_at)
-                    VALUES (%s, %s)
-                    RETURNING id""",
-                (url, created_at)
-            )
-            id = curs.fetchone()[0]
-    return id
+    with get_conn(DATABASE_URL) as conn, conn.cursor() as curs:
+        curs.execute("INSERT INTO urls (name) VALUES (%s) RETURNING id", (url,))
+        conn.commit()
+        id = curs.fetchone()
+    return id[0]
 
 
 def get_url_by_name(url):
