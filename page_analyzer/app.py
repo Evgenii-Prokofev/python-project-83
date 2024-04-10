@@ -37,8 +37,8 @@ def add_url():
     if error:
         flash(error, 'alert-danger')
         return render_template('index.html'), 422
-    normalize_url = normalize(url)
-    url_name = get_url_by_name(normalize_url)
+    url = normalize(url)
+    url_name = get_url_by_name(url)
     if url_name:
         id = url_name.id
         flash('Страница уже существует', 'alert-info')

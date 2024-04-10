@@ -21,7 +21,13 @@ def get_conn(database_url):
 
 def add_url_into_db(url):
     with get_conn(DATABASE_URL) as conn, conn.cursor() as curs:
-        curs.execute("INSERT INTO urls (name) VALUES (%s) RETURNING id", (url,))
+        date = datetime.date.today()
+        curs.execute(
+            """INSERT INTO urls (name, created_at)
+                VALUES (%s, %s)
+                RETURNING id""",
+            (url, date)
+        )
         conn.commit()
         id = curs.fetchone()
     return id[0]
