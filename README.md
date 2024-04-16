@@ -1,6 +1,6 @@
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/Evgenii-Prokofev/python-project-83/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/Evgenii-Prokofev/python-project-83/actions)
-### Result of the Render deploy:
+### Готовое к использованию приложение, доступно по следующему адресу:
 https://python-project-83-nul4.onrender.com/
 
 **"Page Analyzer"** - это сайт, который анализирует указанные страницы на SEO-пригодность.

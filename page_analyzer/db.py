@@ -1,26 +1,20 @@
 import psycopg2
 from psycopg2.extras import DictCursor, NamedTupleCursor
 import os
-from dotenv import load_dotenv
 import datetime
 
 
-load_dotenv()
-
-
-DATABASE_URL = os.getenv("DATABASE_URL")
-
-
-def get_conn(database_url):
+def get_conn():
     try:
-        connection = psycopg2.connect(database_url)
+        DATABASE_URL = os.getenv("DATABASE_URL")
+        connection = psycopg2.connect(DATABASE_URL)
         return connection
     except Exception:
         print("Can't connect to database")
 
 
 def add_url_into_db(url):
-    with get_conn(DATABASE_URL) as conn, conn.cursor() as curs:
+    with get_conn() as conn, conn.cursor() as curs:
         date = datetime.date.today()
         curs.execute(
             """INSERT INTO urls (name, created_at)
@@ -34,7 +28,7 @@ def add_url_into_db(url):
 
 
 def get_url_by_name(url):
-    with get_conn(DATABASE_URL).cursor(cursor_factory=NamedTupleCursor) as curs:
+    with get_conn().cursor(cursor_factory=NamedTupleCursor) as curs:
         query = 'SELECT * FROM urls WHERE name = (%s)'
         curs.execute(query, (url,))
         data = curs.fetchone()
@@ -42,7 +36,7 @@ def get_url_by_name(url):
 
 
 def get_url_by_id(id):
-    with get_conn(DATABASE_URL).cursor(cursor_factory=NamedTupleCursor) as curs:
+    with get_conn().cursor(cursor_factory=NamedTupleCursor) as curs:
         query = 'SELECT * FROM urls WHERE id = (%s)'
         curs.execute(query, (id,))
         url = curs.fetchone()
@@ -50,7 +44,7 @@ def get_url_by_id(id):
 
 
 def get_urls_list():
-    with get_conn(DATABASE_URL).cursor(cursor_factory=DictCursor) as curs:
+    with get_conn().cursor(cursor_factory=DictCursor) as curs:
         query = (
             'SELECT '
             'urls.id AS id, '
@@ -70,7 +64,7 @@ def get_urls_list():
 
 
 def get_check_by_url_id(id):
-    with get_conn(DATABASE_URL).cursor(cursor_factory=NamedTupleCursor) as curs:
+    with get_conn().cursor(cursor_factory=NamedTupleCursor) as curs:
         query = 'SELECT * FROM url_checks WHERE url_id=(%s) ORDER BY id DESC'
         curs.execute(query, (id,))
         checks = curs.fetchall()
@@ -78,7 +72,7 @@ def get_check_by_url_id(id):
 
 
 def add_url_check_into_db(check_info):
-    with get_conn(DATABASE_URL) as connection, connection.cursor() as curs:
+    with get_conn() as connection, connection.cursor() as curs:
         query = (
             'INSERT INTO url_checks '
             '(url_id, status_code, h1, title, description, created_at) '
